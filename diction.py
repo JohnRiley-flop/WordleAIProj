@@ -13,7 +13,7 @@ def initBank():
         fileContent = file.read()
         for word in fileContent.split('\n'):
             words.append(word)
-            words.sort()
+            #words.sort()
 
 
 
