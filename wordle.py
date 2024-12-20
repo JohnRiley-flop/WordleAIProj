@@ -1,6 +1,6 @@
 import diction
 
-import WordleBot
+import WordleBot as wb
 
 #Gets word guess and makes sure it is in the list of acceptable words.
 def promptForWord() -> str:
@@ -57,13 +57,38 @@ def playRound() -> int:
         print("Ooh, better luck next time! The word was: " + str(ans))
 
     return score
-    
+
+def aiPlayRound():
+    ans = diction.pickRandomWord()
+    #print("Psst! Word is ... " + ans)
+    print("Wordle sim started! Have fun!")
+    guessed = False
+    wordGuesses = 0
+    hints = []
+    while not guessed and wordGuesses < 6:
+        print("Guesses remaining: " + str(6 - wordGuesses))
+        newGuess = promptForWord()
+        #AI makes guess
+        guessed = checkForMatch(newGuess, ans)
+        hints.append([hintString(newGuess, ans), newGuess])
+        for hint in hints:
+            print(hint[0] + " : " + hint[1])
+        wordGuesses += 1
+
+    score = 6 - (wordGuesses + 1)
+    if score > 0:
+        print("Solved! It took " + str(wordGuesses) + " guess(es)!")
+    else:
+        print("Ooh, better luck next time! The word was: " + str(ans))
+
+    return score
 
 
 
 if __name__ == "__main__":
-    
-    #numGames = int(input("How many games should the AI play? "))
-    numGames = 1
+    ai = wb.WordleBot()
+    numGames = int(input("How many games should the AI play? "))
+    #numGames = 1000
     for i in range(numGames):
-        playRound()
+        aiPlayRound()
+    #    playRound()
