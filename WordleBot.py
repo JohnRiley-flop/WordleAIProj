@@ -6,8 +6,8 @@ import diction
 
 class WordleBot():
     def __init__(self):
-        self.qTable = self.loadTable()
         self.data_file = 'ai_game_data.json'
+        self.qTable = self.loadTable()
 
     #Training variables
     learningRate = 0.1
@@ -26,5 +26,23 @@ class WordleBot():
             q = json.load(table)
         return q
     
-    def updateTable():#state, action, reward, nextState):
-        print('e')
+    def updateTable(self, state, action, reward, nextState):
+        if state not in self.qTable:
+            self.qTable[state] = {word: 0.0 for word in self.wordOptions}
+        if nextState not in self.qTable:
+            self.qTable[nextState] = {word: 0.0 for word in self.wordOptions}
+        bestNextAction = max(self.qTable[state], key=self.qTable[nextState].get)
+        self.qTable[state][action] = (self.qTable[state][action] + self.learningRate * (reward + self.futureChoiceDiscount * self.qTable[nextState][bestNextAction] - self.qTable[state][action]))
+
+    def bestNextGuess(self, state) -> str:
+        return max(self.qTable[state], key=self.qTable[state].get)
+        
+
+    #Gameplay operations
+    def guessWord(self, currState) -> str:
+        if random.uniform(0,1) < self.explorationRate:
+            return self.bestNextGuess(currState)
+        else:
+            return self.wordOptions[random.randint(0, len(self.wordOptions) - 1)]
+
+           

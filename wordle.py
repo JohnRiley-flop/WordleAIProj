@@ -10,7 +10,6 @@ def promptForWord() -> str:
         acceptedWord = input("Please enter a valid word: ")
     return acceptedWord
 
-#
 def checkForMatch(guess: str, real: str) -> bool:
     if guess.lower() == real.lower():
         return True
@@ -33,47 +32,31 @@ def hintString(guess: str, real: str) -> str:
     return hintStr
 
 #Method to play a round of wordle. Returns the number of points gotten from a round, with points being equal to [6 - guesses].
-def playRound() -> int:
+def playRound(ai: wb.WordleBot) -> int:
     ans = diction.pickRandomWord()
     #print("Psst! Word is ... " + ans)
     print("Wordle sim started! Have fun!")
     guessed = False
     wordGuesses = 0
     hints = []
+    state = "-----"
     while not guessed and wordGuesses < 6:
         print("Guesses remaining: " + str(6 - wordGuesses))
-        newGuess = promptForWord()
+        if ai:
+            newGuess = ai.guessWord(state)
+            reward = (0.5 * (5 - state.count('-'))) - (0.25 * state.count("*"))
+            ai.updateTable(state, newGuess, reward, hintString(newGuess, ans))
+            state = hintString(newGuess, ans)
+        else:
+            newGuess = promptForWord()
         #AI makes guess
         guessed = checkForMatch(newGuess, ans)
         hints.append([hintString(newGuess, ans), newGuess])
         for hint in hints:
             print(hint[0] + " : " + hint[1])
         wordGuesses += 1
-
-    score = 6 - (wordGuesses + 1)
-    if score > 0:
-        print("Solved! It took " + str(wordGuesses) + " guess(es)!")
-    else:
-        print("Ooh, better luck next time! The word was: " + str(ans))
-
-    return score
-
-def aiPlayRound():
-    ans = diction.pickRandomWord()
-    #print("Psst! Word is ... " + ans)
-    print("Wordle sim started! Have fun!")
-    guessed = False
-    wordGuesses = 0
-    hints = []
-    while not guessed and wordGuesses < 6:
-        print("Guesses remaining: " + str(6 - wordGuesses))
-        newGuess = promptForWord()
-        #AI makes guess
-        guessed = checkForMatch(newGuess, ans)
-        hints.append([hintString(newGuess, ans), newGuess])
-        for hint in hints:
-            print(hint[0] + " : " + hint[1])
-        wordGuesses += 1
+    if ai:
+        ai.saveTable()
 
     score = 6 - (wordGuesses + 1)
     if score > 0:
@@ -86,9 +69,12 @@ def aiPlayRound():
 
 
 if __name__ == "__main__":
-    ai = wb.WordleBot()
+    cano = wb.WordleBot()
     numGames = int(input("How many games should the AI play? "))
-    #numGames = 1000
-    for i in range(numGames):
-        aiPlayRound()
-    #    playRound()
+    if numGames < 1:
+        numGames *= -1
+        for i in range(numGames):
+            playRound(None)
+    else:
+        for i in range(numGames):
+            playRound(cano)
