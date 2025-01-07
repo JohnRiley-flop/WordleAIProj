@@ -35,7 +35,7 @@ def hintString(guess: str, real: str) -> str:
 #Method to play a round of wordle. Returns the number of points gotten from a round, with points being equal to [6 - guesses].
 def playRound(ai: wb.WordleBot) -> int:
     ans = diction.pickRandomWord()
-    #print("Psst! Word is ... " + ans)
+
     print("Wordle sim started! Have fun!")
     guessed = False
     wordGuesses = 0
@@ -66,10 +66,11 @@ def playRound(ai: wb.WordleBot) -> int:
         #if ai:
         i = 1
         while True:
-            fname = os.path.join("win_certificates", f"_#{i}.txt")
+            fname = os.path.join("win_certificates", f"certficate_#{i}.txt")
             if not os.path.exists(fname):
                 with open(fname, 'w') as out_file:
                     out_file.write("AI won a game! Word to be guessed was: \"" + ans + "\"\n")
+                break
             i += 1
     else:
         print("Ooh, better luck next time! The word was: " + str(ans))
