@@ -62,6 +62,8 @@ def playRound(ai: wb.WordleBot) -> int:
     score = 6 - (wordGuesses + 1)
     if score > 0:
         print("Solved! It took " + str(wordGuesses) + " guess(es)!")
+        with open("win_certificate.txt", 'w') as out_file:
+            out_file.write("AI won a game! Word to be guessed was: \"" + ans + "\"\n")
     else:
         print("Ooh, better luck next time! The word was: " + str(ans))
 
