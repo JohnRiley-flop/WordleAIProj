@@ -56,6 +56,7 @@ def playRound(ai: wb.WordleBot) -> int:
             print(hint[0] + " : " + hint[1])
         wordGuesses += 1
     if ai:
+        ai.clearGuesses()
         ai.saveTable()
 
     score = 6 - (wordGuesses + 1)
