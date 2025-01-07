@@ -10,9 +10,9 @@ class WordleBot():
         self.qTable = self.loadTable()
 
     #Training variables
-    learningRate = 0.1
+    learningRate = 0.2
     futureChoiceDiscount = 0.9
-    explorationRate = 0.1
+    explorationRate = 0.2
     #List of words to work with
     wordOptions = diction.getWordBank()
 
@@ -40,7 +40,7 @@ class WordleBot():
 
     #Gameplay operations
     def guessWord(self, currState) -> str:
-        if random.uniform(0,1) < self.explorationRate:
+        if random.uniform(0,1) > self.explorationRate:
             return self.bestNextGuess(currState)
         else:
             return self.wordOptions[random.randint(0, len(self.wordOptions) - 1)]
