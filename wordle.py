@@ -56,9 +56,6 @@ def playRound(ai: wb.WordleBot) -> int:
         for hint in hints:
             print(hint[0] + " : " + hint[1])
         wordGuesses += 1
-    if ai:
-        ai.clearGuesses()
-        ai.saveTable()
 
     score = 6 - (wordGuesses + 1)
     if score > 0:
@@ -75,6 +72,8 @@ def playRound(ai: wb.WordleBot) -> int:
     else:
         print("Ooh, better luck next time! The word was: " + str(ans))
 
+    if ai:
+        ai.clearGuesses()
     return score
 
 
@@ -89,3 +88,7 @@ if __name__ == "__main__":
     else:
         for i in range(numGames):
             playRound(cano)
+        print("Updating data...")
+        cano.saveTable()
+    
+    print("Done! See ya!")
