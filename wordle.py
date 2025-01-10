@@ -63,7 +63,7 @@ def playRound(ai: wb.WordleBot) -> int:
         #if ai:
         i = 1
         while True:
-            fname = os.path.join("win_certificates", f"certficate_#{i}.txt")
+            fname = os.path.join("win_certificates", f"certificate_#{i}.txt")
             if not os.path.exists(fname):
                 with open(fname, 'w') as out_file:
                     out_file.write("AI won a game! Word to be guessed was: \"" + ans + "\"\n")
