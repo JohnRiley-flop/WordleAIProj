@@ -3,12 +3,13 @@
 import random
 import json
 import diction
+import os
 
 class WordleBot():
     def __init__(self):
-        self.data_file = 'ai_game_data.json'
-        #self.data_file = 'ai_game_data.json'
-        self.qTable = self.loadTable()
+        self.data_folder = 'ai_game_data/'
+        self.qTable = dict()
+        self.loadTable()
 
     #Training variables
     learningRate = 0.3
@@ -25,14 +26,19 @@ class WordleBot():
 
     #QTable operations
     def saveTable(self):
-        with open(self.data_file, 'w') as table:
-            json.dump(self.qTable, table)
-    
+        for state in self.qTable:
+            filename = self.data_folder + state + ".json"
+            with open(filename, 'w') as state_table:
+                json.dump(self.qTable[state], state_table)
+
     def loadTable(self) -> dict:
-        with open(self.data_file, 'r') as table:
-            q = json.load(table)
-        return q
-    
+        for file in os.listdir(self.data_folder):
+            state = file.replace(".json", "")
+            with open((self.data_folder + file), 'r') as state_table:
+                self.qTable[state] = json.load(state_table)
+
+
+    #Python QTable operations
     def updateTable(self, state, action, reward, nextState):
         if state not in self.qTable:
             self.qTable[state] = {word: 0.0 for word in self.wordOptions}
