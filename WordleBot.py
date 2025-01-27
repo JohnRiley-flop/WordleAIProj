@@ -35,8 +35,7 @@ class WordleBot():
         for file in os.listdir(self.data_folder):
             state = file.replace(".json", "")
             with open((self.data_folder + file), 'r') as state_table:
-                self.qTable[state] = json.load(state_table)
-
+                self.qTable[state] = json.load(state_table)        
 
     #Python QTable operations
     def updateTable(self, state, action, reward, nextState):
