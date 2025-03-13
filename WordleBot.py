@@ -5,6 +5,7 @@ import json
 import diction
 import os
 
+
 class WordleBot():
     def __init__(self):
         self.data_folder = 'ai_game_data/'
