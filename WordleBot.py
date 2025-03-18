@@ -17,7 +17,7 @@ class WordleBot():
     futureChoiceDiscount = 0.9
     explorationRate = 0.2
     #List of words to work with
-    wordOptions = diction.getWordBank()
+    wordOptions = diction.getWordBank("word_bank/")
     def getRandomWord(self) -> str:
         return self.wordOptions[random.randint(0, len(self.wordOptions) - 1)]
     

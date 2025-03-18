@@ -6,7 +6,7 @@ import WordleBot as wb
 #Gets word guess and makes sure it is in the list of acceptable words.
 def promptForWord() -> str:
     acceptedWord = "^^^^^"
-    bank = diction.getWordBank()
+    bank = diction.getWordBank("word_bank/")
     while not (acceptedWord in bank):
         acceptedWord = input("Please enter a valid word: ")
     return acceptedWord
