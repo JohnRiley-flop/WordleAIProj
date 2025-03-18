@@ -6,7 +6,7 @@ import WordleBot as wb
 #Gets word guess and makes sure it is in the list of acceptable words.
 def promptForWord() -> str:
     acceptedWord = "^^^^^"
-    bank = diction.getWordBank("word_bank/")
+    bank = diction.getWordBank()
     while not (acceptedWord in bank):
         acceptedWord = input("Please enter a valid word: ")
     return acceptedWord
@@ -44,6 +44,7 @@ def playRound(ai: wb.WordleBot) -> int:
     while not guessed and wordGuesses < 6:
         print("Guesses remaining: " + str(6 - wordGuesses))
         if ai:
+            ai.addData(state=state)
             newGuess = ai.guessWord(state)
             reward = 5 - (state.count('-') + 0.25 * state.count("^"))
             ai.updateTable(state, newGuess, reward, hintString(newGuess, ans))

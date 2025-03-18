@@ -16,8 +16,12 @@ def pickRandomWord() -> str:
     range = len(words) - 1
     return words[random.randint(0, range)]
 
-def getWordBank(bank_folder) -> List[str]:
+def getWordBank() -> List[str]:
+    bank_folder = "word_bank/"
     if len(words) == 0:
+        while (bank_folder not in os.listdir()) and not(os.getcwd().endswith("Wordle")):
+            bank_folder = "../" + bank_folder 
+            print("e")
         for rfile in os.listdir(bank_folder):
             wordSource = bank_folder + rfile
             file = open(wordSource, 'r')

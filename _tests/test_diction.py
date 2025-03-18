@@ -3,7 +3,6 @@ import sys
 #needed paths
 sys.path.append("../")
 import diction
-import word_bank
 
 
 class Test_Diction(unittest.TestCase):
